@@ -43,7 +43,10 @@ public class CSVLineSplitter {
 				return null;
 			}
 			
-			return process(line);
+			final State state = process(line);
+			currentChar++;
+			
+			return state;
 		}
 
 		protected String extractToken(String line) {
@@ -69,8 +72,6 @@ public class CSVLineSplitter {
 			State state = null;
 			char c = line.charAt(currentChar);
 			startChar = currentChar;
-			currentChar++;
-			
 
 			if (c == '"') {
 				state = new QuotedToken();
@@ -93,14 +94,12 @@ public class CSVLineSplitter {
 			State state = this;
 			
 			char c = line.charAt(currentChar);
-			currentChar++;
 			
 			if (c == '"') {
 				quotes++;
 				
 			} else if ( isTokenEnd(c)) {
 				String token = extractToken(line);
-				token = token.substring(0, token.length() - 1);
 				tokens.add(token);
 				state = new Start();
 			}
@@ -110,7 +109,7 @@ public class CSVLineSplitter {
 
 		@Override
 		protected String extractToken(String line) {
-			return line.substring(startChar + 1, currentChar - 1);
+			return line.substring(startChar + 1, currentChar - 1).replace("\"\"", "\"");
 		}
 		
 		private boolean isTokenEnd(char c) {
@@ -125,7 +124,6 @@ public class CSVLineSplitter {
 			State state = this;
 			
 			char c = line.charAt(currentChar);
-			currentChar++;
 
 			if (c == ',') {
 				String token = extractToken(line);
@@ -138,7 +136,7 @@ public class CSVLineSplitter {
 
 		@Override
 		protected String extractToken(String line) {
-			return line.substring(startChar, currentChar - 1);
+			return line.substring(startChar, currentChar);
 		}
 	}
 	
@@ -147,6 +145,7 @@ public class CSVLineSplitter {
 		@Override
 		State process(String line) {
 			tokens.add(extractToken(line));
+			currentChar--;
 			
 			return new Start();
 		}
@@ -158,16 +157,4 @@ public class CSVLineSplitter {
 		
 	}
 	
-	static void test() {
-		CSVLineSplitter sp = new CSVLineSplitter();
-
-		for (String t : sp.split("33,,\"N\"")) {
-			System.out.println(t);
-		}
-
-	}
-
-	public static void main(String[] args) {
-		test();
-	}
 }

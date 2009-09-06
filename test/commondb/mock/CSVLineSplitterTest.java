@@ -35,7 +35,7 @@ public class CSVLineSplitterTest {
 
 	@Test
 	public void testTrivialCase2() throws Exception {
-		assertArrayEquals(new String[] {"City1", "\"20\""}, sp.split("\"City1\",\"20\""));
+		assertArrayEquals(new String[] {"City1", "20"}, sp.split("\"City1\",\"20\""));
 	}
 	
 	@Test
