@@ -120,7 +120,7 @@ public class CSVLineSplitter {
 
 		@Override
 		protected String extractToken(String line) {
-			return line.substring(startChar + 1, currentChar - 1).replace("\"\"", "\"");
+			return line.substring(startChar + 1, currentChar - 1).replaceAll("\"\"", "\"");
 		}
 		
 		private boolean isTokenEnd(char c) {

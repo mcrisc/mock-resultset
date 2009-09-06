@@ -283,6 +283,8 @@ public class MockResultSet implements ResultSet {
 				value = "0";
 			}
 			
+			value = value.replace(',', '.');
+			
 			return Double.parseDouble(value);
 		} catch (Exception e) {
 			throw new SQLException(e);
