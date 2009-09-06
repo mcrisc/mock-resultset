@@ -2,6 +2,7 @@ package commondb.mock;
 
 import static org.junit.Assert.assertArrayEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class CSVLineSplitterTest {
@@ -41,6 +42,12 @@ public class CSVLineSplitterTest {
 	@Test
 	public void testFinalEmptyField() {
 		assertArrayEquals(new String[] {"City1", "20", ""}, sp.split("\"City1\",20,"));
+		assertArrayEquals(new String[] {"1", ""}, sp.split("1,"));
+	}
+
+	@Test
+	public void testEmptyFieldsOnly() throws Exception {
+		assertArrayEquals(new String[] {"", "", ""}, sp.split(",,"));
 	}
 
 	@Test

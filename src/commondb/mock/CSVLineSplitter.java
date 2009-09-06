@@ -36,13 +36,6 @@ public class CSVLineSplitter {
 	
 	abstract class State {
 		State next(String line) {
-			if (isLineEnd(line)) {
-				String token = extractToken(line);
-				tokens.add(token);
-				
-				return null;
-			}
-			
 			final State state = process(line);
 			currentChar++;
 			
@@ -53,9 +46,7 @@ public class CSVLineSplitter {
 			return line.substring(startChar, currentChar);
 		}
 		
-		abstract State process(String line);
-		
-		private boolean isLineEnd(String line) {
+		protected boolean isLineEnd(String line) {
 			if (currentChar >= line.length()) {
 				return true;
 			}
@@ -63,16 +54,38 @@ public class CSVLineSplitter {
 			char c = line.charAt(currentChar);
 			return (c == '\r') || (c == '\n');
 		}
+		
+		abstract State process(String line);
+	}
+	
+	abstract class TokenParsingState extends State {
+		@Override
+		State next(String line) {
+			if (isLineEnd(line)) {
+				String token = extractToken(line);
+				tokens.add(token);
+				
+				return null;
+			}
+			
+			return super.next(line);
+		}
+		
 	}
 	
 	class Start extends State {
 
 		@Override
 		State process(String line) {
-			State state = null;
+			if (isLineEnd(line)) {
+				tokens.add("");
+				return null;
+			}
+
 			char c = line.charAt(currentChar);
 			startChar = currentChar;
-
+			
+			State state = null;
 			if (c == '"') {
 				state = new QuotedToken();
 			} else if (c == ',') {
@@ -86,7 +99,7 @@ public class CSVLineSplitter {
 		}
 	}
 	
-	class QuotedToken extends State {
+	class QuotedToken extends TokenParsingState {
 		private int quotes = 1;
 		
 		@Override
@@ -117,7 +130,7 @@ public class CSVLineSplitter {
 		}
 	}
 	
-	class NonQuotedToken extends State {
+	class NonQuotedToken extends TokenParsingState {
 
 		@Override
 		State process(String line) {
@@ -144,7 +157,7 @@ public class CSVLineSplitter {
 
 		@Override
 		State process(String line) {
-			tokens.add(extractToken(line));
+			tokens.add("");
 			currentChar--;
 			
 			return new Start();
@@ -152,9 +165,8 @@ public class CSVLineSplitter {
 		
 		@Override
 		protected String extractToken(String line) {
-			return "";
+			throw new IllegalStateException(); // method should never be called
 		}
 		
 	}
-	
 }
