@@ -42,10 +42,6 @@ public class CSVLineSplitter {
 			return state;
 		}
 
-		protected String extractToken(String line) {
-			return line.substring(startChar, currentChar);
-		}
-		
 		protected boolean isLineEnd(String line) {
 			if (currentChar >= line.length()) {
 				return true;
@@ -70,6 +66,8 @@ public class CSVLineSplitter {
 			
 			return super.next(line);
 		}
+		
+		abstract String extractToken(String line);
 		
 	}
 	
@@ -161,11 +159,6 @@ public class CSVLineSplitter {
 			currentChar--;
 			
 			return new Start();
-		}
-		
-		@Override
-		protected String extractToken(String line) {
-			throw new IllegalStateException(); // method should never be called
 		}
 		
 	}

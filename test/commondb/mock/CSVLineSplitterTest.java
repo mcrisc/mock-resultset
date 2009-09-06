@@ -2,7 +2,6 @@ package commondb.mock;
 
 import static org.junit.Assert.assertArrayEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CSVLineSplitterTest {
