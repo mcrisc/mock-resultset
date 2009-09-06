@@ -1,0 +1,12 @@
+
+== MockResultSet ==
+
+Copyright 2009 Marcelo Criscuolo
+
+This piece of software is licensed under the terms of 
+The MIT License (check file LICENSE under the same directory as this).
+
+
+
+MockResultSet aims to be a simple, lightweight implementation of java.sql.ResultSet interface backed by CSV data.
+  
