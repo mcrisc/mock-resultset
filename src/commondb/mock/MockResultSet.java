@@ -248,7 +248,7 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public Date getDate(int columnIndex) throws SQLException {
 		try {
-			String value = getString(columnIndex);
+			String value = getValue(columnIndex);
 			Date date = null;
 			if ( (value != null) && (value.trim().length() >= 0)) {
 				DateFormat df = DateFormat.getDateInstance();
@@ -283,7 +283,7 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public double getDouble(int columnIndex) throws SQLException {
 		try {
-			String value = getString(columnIndex);
+			String value = getValue(columnIndex);
 			if ( (value == null) || (value.trim().length() == 0)) {
 				value = "0";
 			}
@@ -329,7 +329,7 @@ public class MockResultSet implements ResultSet {
 	@Override
 	public int getInt(int columnIndex) throws SQLException {
 		try {
-			String value = getString(columnIndex);
+			String value = getValue(columnIndex);
 			if ( (value == null) || (value.trim().length() == 0)) {
 				value = "0";
 			}
@@ -464,6 +464,14 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public String getString(int columnIndex) throws SQLException {
+		return getValue(columnIndex);
+	}
+
+	private String getValue(int columnIndex) throws SQLException {
+		if ( (cursor < 0) || (cursor >= rowset.size()) ) {
+			throw new SQLException("cursor not pointing to a valid row");
+		}
+		
 		String[] row = rowset.get(cursor);
 		return row[columnIndex - 1];
 	}
@@ -599,14 +607,23 @@ public class MockResultSet implements ResultSet {
 	public boolean next() throws SQLException {
 		
 		final boolean hasNext = (cursor + 1) < rowset.size();
-		cursor++;
+		if (hasNext) {
+			cursor++;
+		}
 		
 		return hasNext;
 	}
 
 	@Override
 	public boolean previous() throws SQLException {
-		throw new UnsupportedOperationException("to be implemented");
+		cursor--;
+		
+		if (cursor < -1) { 
+			cursor = -1; // one row before the first is the limit
+		}
+		
+		final boolean beforeFirst = (cursor < 0);		
+		return !beforeFirst;
 	}
 
 	@Override

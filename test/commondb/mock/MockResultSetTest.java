@@ -1,9 +1,10 @@
 package commondb.mock;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,9 +25,15 @@ public class MockResultSetTest {
 
 	@Test
 	public void testMoveFirst() throws Exception {
-		rs.first();
+		assertTrue(rs.first());
+		assertFalse(rs.previous());
 	}
 
+	@Test(expected=SQLException.class)
+	public void testNoRow() throws Exception {
+		rs.getString(1);
+	}
+	
 	@Test
 	public void testFirstRow() throws Exception {
 		rs.first();
@@ -42,11 +49,25 @@ public class MockResultSetTest {
 	
 	@Test
 	public void testMoveLast() throws Exception {
-		rs.last();
+		 assertTrue(rs.last());
+		 assertFalse(rs.next());
 	}
 
+	@Test
 	public void testLastRow() throws Exception {
-		rs.last();
+		assertTrue(rs.last());
 		assertEquals(0, rs.getDouble("balance"));
+		assertFalse(rs.next());
+	}
+	
+	@Test
+	public void testFullIteration() throws Exception {
+		int id = 0;
+		while (rs.next()) {
+			id++;
+			assertEquals(id, rs.getInt("id"));
+		}
+		
+		assertEquals(11, id);
 	}
 }
