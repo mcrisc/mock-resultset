@@ -115,7 +115,12 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public boolean first() throws SQLException {
-		throw new UnsupportedOperationException("to be implemented");
+		if (rowset.size() > 0) {
+			cursor = 0;
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -572,7 +577,12 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public boolean last() throws SQLException {
-		throw new UnsupportedOperationException("to be implemented");
+		if (rowset.size() > 0) {
+			cursor = rowset.size() - 1;
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
