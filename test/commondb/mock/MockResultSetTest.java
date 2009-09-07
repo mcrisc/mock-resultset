@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -69,5 +71,29 @@ public class MockResultSetTest {
 		}
 		
 		assertEquals(11, id);
+	}
+
+	@Test
+	public void testEmptyField() throws Exception {
+		rs.next();rs.next();
+		
+		assertEquals("", rs.getString("parent_id"));
+	}
+	
+	@Test
+	public void testEscapedChars() throws Exception {
+		rs.last();
+		assertEquals("Client3,\"", rs.getString("name"));
+	}
+	
+	@Test
+	public void testDateValues() throws Exception {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date expected = sdf.parse("21/12/2009");
+		
+		rs.first();
+		Date readDate = rs.getDate("creation_date");
+		assertEquals(expected, readDate);
 	}
 }
