@@ -33,6 +33,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class MockResultSet implements ResultSet {
+	static final String INVALID_COLUMN_NAME = "invalid column name";
+	static final String INVALID_COLUMN_INDEX = "invalid column index";
 	private List<String[]> rowset = new ArrayList<String[]>();
 	private int cursor = -1;
 	private Map<String, Integer> columnMap = new HashMap<String, Integer>();
@@ -267,7 +269,7 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public Date getDate(String columnLabel) throws SQLException {
-		return getDate(columnMap.get(columnLabel));
+		return getDate(getColumnIndex(columnLabel));
 	}
 
 	@Override
@@ -298,7 +300,7 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public double getDouble(String columnLabel) throws SQLException {
-		return getDouble(columnMap.get(columnLabel));
+		return getDouble(getColumnIndex(columnLabel));
 	}
 
 	@Override
@@ -342,7 +344,7 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public int getInt(String columnLabel) throws SQLException {
-		return getInt(columnMap.get(columnLabel));
+		return getInt(getColumnIndex(columnLabel));
 	}
 
 	@Override
@@ -473,12 +475,24 @@ public class MockResultSet implements ResultSet {
 		}
 		
 		String[] row = rowset.get(cursor);
+		if ( (columnIndex < 0) || (columnIndex > row.length) ) {
+			throw new SQLException(INVALID_COLUMN_INDEX);
+		}
+		
 		return row[columnIndex - 1];
 	}
 
 	@Override
 	public String getString(String columnLabel) throws SQLException {
-		return getString(columnMap.get(columnLabel));
+		return getString(getColumnIndex(columnLabel));
+	}
+
+	private Integer getColumnIndex(String columnLabel) throws SQLException {
+		Integer index = columnMap.get(columnLabel);
+		if (index == null) {
+			throw new SQLException(INVALID_COLUMN_NAME);
+		}
+		return index;
 	}
 
 	@Override

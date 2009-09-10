@@ -96,4 +96,38 @@ public class MockResultSetTest {
 		Date readDate = rs.getDate("creation_date");
 		assertEquals(expected, readDate);
 	}
+	
+	@Test
+	public void testInvalidColumnName() {
+		try {
+			rs.next();
+			rs.getString("last_name");
+			fail();
+		} catch (SQLException e) {
+			assertTrue(e.getMessage().endsWith(MockResultSet.INVALID_COLUMN_NAME));
+		}
+	}
+	
+	@Test
+	public void testNegativeColumnIndex() throws Exception {
+		try {
+			rs.next();
+			rs.getDouble(-1);
+			fail();
+		} catch (SQLException e) {
+			assertTrue(e.getMessage().endsWith(MockResultSet.INVALID_COLUMN_INDEX));
+		}
+	}
+	
+	@Test
+	public void testIndexOutOfBounds() throws Exception {
+		try {
+			rs.next();
+			rs.getDate(250);
+			fail();
+		} catch (SQLException e) {
+			assertTrue(e.getMessage().endsWith(MockResultSet.INVALID_COLUMN_INDEX));
+		}
+	}
+	
 }
