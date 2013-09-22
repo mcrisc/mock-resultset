@@ -415,6 +415,16 @@ public class MockResultSet implements ResultSet {
 	}
 
 	@Override
+	public <T> T getObject(int columnIndex, Class<T> type) throws SQLException {
+		throw new UnsupportedOperationException("to be implemented");
+	}
+
+	@Override
+	public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
+		throw new UnsupportedOperationException("to be implemented");
+	}
+
+	@Override
 	public Ref getRef(int columnIndex) throws SQLException {
 		throw new UnsupportedOperationException("to be implemented");
 	}
