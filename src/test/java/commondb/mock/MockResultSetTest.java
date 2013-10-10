@@ -2,6 +2,7 @@ package commondb.mock;
 
 import static org.junit.Assert.*;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,8 @@ public class MockResultSetTest {
 	@Before
 	public void loadData() throws Exception {
 		rs = new MockResultSet();
-		((MockResultSet)rs).loadCSV(new InputStreamReader(MockResultSetTest.class.getResourceAsStream("resources/data.csv")));
+		InputStream data = ClassLoader.getSystemResourceAsStream("data.csv");
+		((MockResultSet)rs).loadCSV(new InputStreamReader(data));
 	}
 	
 	@After
