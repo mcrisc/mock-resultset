@@ -39,6 +39,22 @@ public class MockResultSet implements ResultSet {
 	private int cursor = -1;
 	private Map<String, Integer> columnMap = new HashMap<String, Integer>();
 	private CSVLineSplitter splitter = new CSVLineSplitter();
+
+	public MockResultSet() {
+	}
+
+	/**
+	 * ResultSet rs = new MockResultSet(
+	 *     "ID,NAME,CITY",
+	 *     "3,John,New York",
+	 *     "4,Bill,Sydney"
+	 * );
+	 *
+	 * @param str headers and rows that form the CSV data
+	 */
+	public MockResultSet(String... str) throws SQLException {
+		loadCSV(new StringReader(StringUtils.join(str, "\n")));
+	}
 	
 	/**
 	 * @param in source from where the CSV data will be read
@@ -47,6 +63,10 @@ public class MockResultSet implements ResultSet {
 	 * on SQLException, so that it is not necessary to
 	 * add additional catches to client code.
 	 */
+	public MockResultSet(Readable in) throws SQLException {
+		loadCSV(in);
+	}
+	
 	public void loadCSV(Readable in) throws SQLException {
 		final Scanner sc = new Scanner(in);
 		
