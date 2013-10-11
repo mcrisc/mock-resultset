@@ -92,8 +92,8 @@ public class MockResultSetTest {
 	@Test
 	public void testDateValues() throws Exception {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date expected = sdf.parse("21/12/2009");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date expected = sdf.parse("2009-12-21");
 		
 		rs.first();
 		Date readDate = rs.getDate("creation_date");

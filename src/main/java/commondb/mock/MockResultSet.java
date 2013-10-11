@@ -26,6 +26,7 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ import org.apache.commons.lang.StringUtils;
 public class MockResultSet implements ResultSet {
 	static final String INVALID_COLUMN_NAME = "invalid column name";
 	static final String INVALID_COLUMN_INDEX = "invalid column index";
+        static final DateFormat DATE_ISO_8601 = new SimpleDateFormat("yyyy-MM-dd");
 	private List<String[]> rowset = new ArrayList<String[]>();
 	private int cursor = -1;
 	private Map<String, Integer> columnMap = new HashMap<String, Integer>();
@@ -272,17 +274,16 @@ public class MockResultSet implements ResultSet {
 	}
 
 	@Override
+        /**
+         * Dates are expected to be formatted as yyyy-MM-dd.
+         * See http://en.wikipedia.org/wiki/ISO_8601#Calendar_dates
+         */
 	public Date getDate(int columnIndex) throws SQLException {
 		try {
 			String value = getValue(columnIndex);
 			Date date = null;
 			if ( (value != null) && (value.trim().length() >= 0)) {
-				DateFormat df = DateFormat.getDateInstance();
-				if (value.trim().length() <= 8) {
-					df = DateFormat.getDateInstance(DateFormat.SHORT);
-				}
-				
-				date = new Date(df.parse(value).getTime());
+				date = new Date(DATE_ISO_8601.parse(value).getTime());
 			}
 			
 			return date;

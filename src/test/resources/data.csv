@@ -1,12 +1,12 @@
 "id","parent_id","creation_date","name","balance"
-1,,21/12/09,"Cliente1 da Silva",-30
-2,,04/02/04,"Cliente2 Silveira",-189
-3,,20/11/03,"Cliente3 Rodrigues","-1,4"
-4,,18/03/97,"Cliente4 Martinez""",-1456
-5,,22/06/98,"Cliente5 Silveira Marques Rodrigues",1800
-6,,21/01/99,"John Doe",2500
-7,,01/02/99,"Jane Doe",4567
-8,,01/03/00,"Client McHidden",
-9,,01/04/05,"Client McFound",-256
-10,,01/10/07,"von Hidden, Client",
-11,,17/09/09,"Client3,""",
+1,,2009-12-21,"Cliente1 da Silva",-30
+2,,2004-02-04,"Cliente2 Silveira",-189
+3,,2003-11-20,"Cliente3 Rodrigues","-1,4"
+4,,1997-03-18,"Cliente4 Martinez""",-1456
+5,,1998-06-22,"Cliente5 Silveira Marques Rodrigues",1800
+6,,1999-01-21,"John Doe",2500
+7,,1999-02-01,"Jane Doe",4567
+8,,2000-03-01,"Client McHidden",
+9,,2005-04-01,"Client McFound",-256
+10,,2007-10-01,"von Hidden, Client",
+11,,2009-09-17,"Client3,""",
