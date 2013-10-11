@@ -19,6 +19,7 @@ public class MockResultSetTest {
 	public void loadData() throws Exception {
 		rs = new MockResultSet();
 		InputStream data = ClassLoader.getSystemResourceAsStream("data.csv");
+                assertNotEquals(data, null);
 		((MockResultSet)rs).loadCSV(new InputStreamReader(data));
 	}
 	
@@ -48,7 +49,7 @@ public class MockResultSetTest {
 	@Test
 	public void testDoubleValue() throws Exception {
 		rs.next(); rs.next(); rs.next();
-		assertEquals(-1.4, rs.getDouble("balance"));
+		assertEquals(-1.4, rs.getDouble("balance"), 0);
 	}
 	
 	@Test
@@ -60,7 +61,7 @@ public class MockResultSetTest {
 	@Test
 	public void testLastRow() throws Exception {
 		assertTrue(rs.last());
-		assertEquals(0, rs.getDouble("balance"));
+		assertEquals(0, rs.getDouble("balance"), 0);
 		assertFalse(rs.next());
 	}
 	

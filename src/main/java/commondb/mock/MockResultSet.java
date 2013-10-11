@@ -7,6 +7,7 @@ package commondb.mock;
 
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Array;
@@ -31,6 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
+import org.apache.commons.lang.StringUtils;
+
 
 public class MockResultSet implements ResultSet {
 	static final String INVALID_COLUMN_NAME = "invalid column name";
