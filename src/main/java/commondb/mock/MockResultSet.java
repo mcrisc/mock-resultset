@@ -77,6 +77,7 @@ public class MockResultSet implements ResultSet {
 		final Scanner sc = new Scanner(in);
 		
 		if (!sc.hasNextLine()) {
+			sc.close();
 			throw new SQLException("empty data source");
 		}
 
