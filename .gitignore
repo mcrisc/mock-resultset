@@ -1,3 +1,6 @@
+.settings
+.project
+.classpath
 /bin
 /test-bin
 /build
