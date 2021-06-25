@@ -64,6 +64,15 @@ public class MockResultSetTest {
 		assertEquals(0, rs.getDouble("balance"), 0);
 		assertFalse(rs.next());
 	}
+
+	@Test
+	public void testIsLast() throws Exception {
+		assertFalse(rs.isLast());
+		assertTrue(rs.last());
+		assertEquals(0, rs.getDouble("balance"), 0);
+		assertTrue(rs.isLast());
+		assertFalse(rs.next());
+	}
 	
 	@Test
 	public void testFullIteration() throws Exception {
