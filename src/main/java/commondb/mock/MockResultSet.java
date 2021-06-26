@@ -634,7 +634,8 @@ public class MockResultSet implements ResultSet {
 
 	@Override
 	public boolean isLast() throws SQLException {
-		throw new UnsupportedOperationException("to be implemented");
+		final boolean hasNext = (cursor + 1) < rowset.size();
+		return !hasNext;
 	}
 
 	@Override
